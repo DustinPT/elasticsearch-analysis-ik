@@ -49,6 +49,8 @@ public class Lexeme implements Comparable<Lexeme>{
 	public static final int TYPE_COUNT = 32;
 	//中文数量词
 	public static final int TYPE_CQUAN = 48;
+	//标点符号
+	public static final int TYPE_PUNCTUATION = 65;
 	
 	//词元的起始位移
 	private int offset;
@@ -241,6 +243,9 @@ public class Lexeme implements Comparable<Lexeme>{
 			
 		case TYPE_CQUAN:	
 			return "TYPE_CQUAN";
+
+		case TYPE_PUNCTUATION:
+			return "PUNCTUATION";
 			
 		default :
 			return "UNKONW";

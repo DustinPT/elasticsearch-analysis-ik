@@ -139,7 +139,8 @@ class AnalyzeContext {
      */
     void initCursor(){
     	this.cursor = 0;
-    	this.segmentBuff[this.cursor] = CharacterUtil.regularize(this.segmentBuff[this.cursor],cfg.isEnableLowercase());
+    	this.segmentBuff[this.cursor] = CharacterUtil.regularize(this.segmentBuff[this.cursor],cfg.isEnableLowercase(),
+                cfg.isKeepPunctuations());
     	this.charTypes[this.cursor] = CharacterUtil.identifyCharType(this.segmentBuff[this.cursor]);
     }
     
@@ -151,7 +152,8 @@ class AnalyzeContext {
     boolean moveCursor(){
     	if(this.cursor < this.available - 1){
     		this.cursor++;
-        	this.segmentBuff[this.cursor] = CharacterUtil.regularize(this.segmentBuff[this.cursor],cfg.isEnableLowercase());
+        	this.segmentBuff[this.cursor] = CharacterUtil.regularize(this.segmentBuff[this.cursor],cfg.isEnableLowercase(),
+                    cfg.isKeepPunctuations());
         	this.charTypes[this.cursor] = CharacterUtil.identifyCharType(this.segmentBuff[this.cursor]);
     		return true;
     	}else{
@@ -257,6 +259,12 @@ class AnalyzeContext {
 		for( ; index <= this.cursor ;){
 			//跳过非CJK字符
 			if(CharacterUtil.CHAR_USELESS == this.charTypes[index]){
+			    if(this.cfg.isKeepPunctuations()){
+                    char ch = this.segmentBuff[index];
+                    if (CharacterUtil.isPunctuation(ch)) {
+                        this.results.add(new Lexeme(this.buffOffset, index, 1, Lexeme.TYPE_PUNCTUATION));
+                    }
+                }
 				index++;
 				continue;
 			}

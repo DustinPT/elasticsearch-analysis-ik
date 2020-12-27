@@ -16,16 +16,29 @@ public class IkTokenizerFactory extends AbstractTokenizerFactory {
   }
 
   public static IkTokenizerFactory getIkTokenizerFactory(IndexSettings indexSettings, Environment env, String name, Settings settings) {
-      return new IkTokenizerFactory(indexSettings,env, name, settings).setSmart(false);
+      return new IkTokenizerFactory(indexSettings,env, name, settings).setSmart(false).keepPunctuations(false);
+  }
+
+  public static IkTokenizerFactory getIkKpTokenizerFactory(IndexSettings indexSettings, Environment env, String name, Settings settings) {
+      return new IkTokenizerFactory(indexSettings,env, name, settings).setSmart(false).keepPunctuations(true);
   }
 
   public static IkTokenizerFactory getIkSmartTokenizerFactory(IndexSettings indexSettings, Environment env, String name, Settings settings) {
-      return new IkTokenizerFactory(indexSettings,env, name, settings).setSmart(true);
+      return new IkTokenizerFactory(indexSettings,env, name, settings).setSmart(true).keepPunctuations(false);
+  }
+
+  public static IkTokenizerFactory getIkSmartKpTokenizerFactory(IndexSettings indexSettings, Environment env, String name, Settings settings) {
+      return new IkTokenizerFactory(indexSettings, env, name, settings).setSmart(true).keepPunctuations(true);
   }
 
   public IkTokenizerFactory setSmart(boolean smart){
         this.configuration.setUseSmart(smart);
         return this;
+  }
+
+  public IkTokenizerFactory keepPunctuations(boolean keepPunctuations){
+      this.configuration.setKeepPunctuations(keepPunctuations);
+      return this;
   }
 
   @Override
